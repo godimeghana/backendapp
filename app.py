@@ -5,6 +5,9 @@ import psycopg2
 import psycopg2.extras
 import os
 import urllib.parse
+from dotenv import load_dotenv
+load_dotenv()
+
 
 
 app = Flask(__name__)
@@ -17,18 +20,21 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 # Parse the DATABASE_URL
 urllib.parse.uses_netloc.append("postgres")
 db_url = urllib.parse.urlparse(DATABASE_URL)
+print("DATABASE_URL:", DATABASE_URL)
 
 
 def get_db_connection():
-    return psycopg2.connect(
-        dbname=db_url.path[1:],  # Removes leading /
+    conn = psycopg2.connect(
+        dbname=db_url.path[1:],
         user=db_url.username,
         password=db_url.password,
         host=db_url.hostname,
         port=db_url.port,
         sslmode='require'
     )
-print("DATABASE_URL:", DATABASE_URL)
+print("Connected to DB:", db_url.path[1:])
+
+
 
 
 @app.route('/')
