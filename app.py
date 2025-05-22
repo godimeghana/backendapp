@@ -3,24 +3,33 @@ from flask_cors import CORS
 from datetime import datetime
 import psycopg2
 import psycopg2.extras
+import os
+import urllib.parse
+
 
 app = Flask(__name__)
 
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
 
-DB_HOST = "localhost"
-DB_NAME = "document"
-DB_USER = "postgres"
-DB_PASS = "mini"
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+# Parse the DATABASE_URL
+urllib.parse.uses_netloc.append("postgres")
+db_url = urllib.parse.urlparse(DATABASE_URL)
+
 
 def get_db_connection():
     return psycopg2.connect(
-        host=DB_HOST,
-        port=5433,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS
+        dbname=db_url.path[1:],  # Removes leading /
+        user=db_url.username,
+        password=db_url.password,
+        host=db_url.hostname,
+        port=db_url.port,
+        sslmode='require'
     )
+print("DATABASE_URL:", DATABASE_URL)
+
 
 @app.route('/')
 def index():
