@@ -12,7 +12,9 @@ load_dotenv()
 
 app = Flask(__name__,static_folder='../dist/doc-management/browser')
 
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
+CORS(app, origins=[
+    "http://localhost:4200",
+    "https://godimeghana.github.io"])
 @app.route('/<path:path>')
 def static_files(path):
     return send_from_directory(app.static_folder, path)
