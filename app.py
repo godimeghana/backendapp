@@ -41,7 +41,7 @@ def static_proxy(path):
 
 @app.route('/documentp/')
 @app.route('/documentp/<path:path>')
-def index(path=None):
+def angular_index(path=None):
     index_path = os.path.join(app.static_folder, 'index.html')
     with open(index_path) as f:
         return render_template_string(f.read())
