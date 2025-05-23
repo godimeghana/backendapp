@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,send_from_directory
+from flask import Flask, request, jsonify,send_from_directory, render_template_string
 from flask_cors import CORS
 from datetime import datetime
 import psycopg2
@@ -35,8 +35,16 @@ def get_db_connection():
     )
 print("Connected to DB:", db_url.path[1:])
 
+@app.route('/documentp/<path:path>')
+def static_proxy(path):
+    return send_from_directory(app.static_folder, path)
 
-
+@app.route('/documentp/')
+@app.route('/documentp/<path:path>')
+def index(path=None):
+    index_path = os.path.join(app.static_folder, 'index.html')
+    with open(index_path) as f:
+        return render_template_string(f.read())
 
 @app.route('/')
 def index():
