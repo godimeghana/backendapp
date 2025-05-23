@@ -10,10 +10,12 @@ load_dotenv()
 
 
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='../dist/doc-management/browser')
 
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:4200"}})
-
+@app.route('/<path:path>')
+def static_files(path):
+    return send_from_directory(app.static_folder, path)
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
