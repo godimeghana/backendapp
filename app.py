@@ -19,7 +19,6 @@ def static_files(path):
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# Parse the DATABASE_URL
 urllib.parse.uses_netloc.append("postgres")
 db_url = urllib.parse.urlparse(DATABASE_URL)
 print("DATABASE_URL:", DATABASE_URL)
