@@ -37,9 +37,7 @@ def get_db_connection():
     )
 print("Connected to DB:", db_url.path[1:])
 
-@app.route('/documentp/<path:path>')
-def static_proxy(path):
-    return send_from_directory(app.static_folder, path)
+
 
 @app.route('/documentp/')
 @app.route('/documentp/<path:path>')
