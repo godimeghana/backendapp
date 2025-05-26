@@ -37,14 +37,12 @@ def get_db_connection():
     )
 print("Connected to DB:", db_url.path[1:])
 
-
-
-@app.route('/documentp/')
+@app.route('/documentp', defaults={'path': ''})
 @app.route('/documentp/<path:path>')
-def angular_index(path=None):
+def serve_documentp(path):
     index_path = os.path.join(app.static_folder, 'index.html')
-    with open(index_path) as f:
-        return render_template_string(f.read())
+    return render_template_string(open(index_path).read())
+
 
 @app.route('/')
 def index():
