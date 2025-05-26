@@ -35,6 +35,7 @@ def get_db_connection():
         port=db_url.port,
         sslmode='require'
     )
+    return conn
 print("Connected to DB:", db_url.path[1:])
 
 @app.route('/documentp', defaults={'path': ''})
