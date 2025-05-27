@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify,send_from_directory, render_template_string
 from flask_cors import CORS
-from datetime import datetime
+from datetime import datetime,timezone
 import psycopg2
 import psycopg2.extras
 import os
@@ -74,7 +74,7 @@ def save_document():
     data = request.json
     name = data.get('name')
     content = data.get('content')
-    current_time = datetime.now()
+    current_time = datetime.now(timezone.utc)
 
     try:
         conn = get_db_connection()
